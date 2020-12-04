@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Task;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-
-Route::get('/', 'WelcomeController@index');
 Route::get('testregister', 'WelcomeController@testregister');
 Route::post('success', 'WelcomeController@success');
 Route::get('/register', 'CustomRegisterController@showRegister');
-Route::post('/register', 'CustomRegisterController@register');
+Route::post('/register', 'TestRegister@register');
 Route::get('/login', 'CustomLoginController@showLogin')->name('login');
-//header('Location: http://naver.com/');
 
 
 Route::get('auth/login', function () {
@@ -56,3 +51,36 @@ Route::get('auth/logout', function () {
 // Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//할일 만들기
+
+Route::get('/', function () {
+   return view('welcome');
+});
+Route::get('/tasks', 'TaskController@index');
+Route::post('/task', 'TaskController@store');
+Route::delete('/task/{task}', 'TaskController@destroy');
+
+
+Auth::routes();
+Route::auth();
+Route::get('/home', 'TaskController@index');
+
+
+//연습
+Route::get('/', function () {
+    $fruite = [];
+    return view('welcome' , ['fruites' => $fruite]);
+   
+});
+
+Route::get('/test', function() {
+return view('test');
+});
+
+Route::resource('test1', 'testController');
+Route::resource('articles' , 'ArticlesController');
+// DB::listen(function($query){
+//     var_dump($query->sql);
+// });
+    
